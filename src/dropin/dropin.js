@@ -31,6 +31,27 @@ getClientKey().then((clientKey) => {
             throw Error(error);
           });
       },
+
+      onAdditionalDetails: (state, dropin) => {
+        submitDetails(state.data)
+          .then((response) => {
+            if (response.action) {
+              dropin.handleAction(response.action);
+            } else if (response.resultCode === "Authorised") {
+              dropin.setStatus("success", { message: "Payment successful!" });
+              setTimeout(function () {
+                dropin.setStatus("ready");
+              }, 2000);
+            } else if (response.resultCode !== "Authorised") {
+              setTimeout(function () {
+                dropin.setStatus("ready");
+              }, 2000);
+            }
+          })
+          .catch((error) => {
+            throw Error(error);
+          });
+      },
     };
 
     // 1. Create an instance of AdyenCheckout
