@@ -6,9 +6,11 @@ getClientKey().then((clientKey) => {
       clientKey: clientKey, // Mandatory. clientKey from Customer Area
       paymentMethodsResponse,
       removePaymentMethods: ["paysafecard", "c_cash"],
+
       onChange: (state) => {
         updateStateContainer(state); // Demo purposes only
       },
+
       onSubmit: (state, dropin) => {
         makePayment(state.data)
           .then((response) => {
@@ -53,7 +55,7 @@ getClientKey().then((clientKey) => {
           });
       },
     };
-
+    console.log(paymentMethodsResponse);
     // 1. Create an instance of AdyenCheckout
     const checkout = await AdyenCheckout(configuration);
 

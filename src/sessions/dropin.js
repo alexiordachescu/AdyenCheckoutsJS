@@ -7,6 +7,7 @@ getClientKey().then((clientKey) => {
 
   function initiateSession() {
     sessionsDropin().then((response) => {
+      console.log(response);
       const configuration = {
         environment: "test", // Change to 'live' for the live environment.
         clientKey: clientKey, // Public key used for client-side authentication: https://docs.adyen.com/development-resources/client-side-authentication
