@@ -6,7 +6,7 @@ const getPaymentMethods = require("./api/paymentMethods");
 const getOriginKeys = require("./api/originKeys");
 const getClientKeys = require("./api/clientKeys");
 const makePayment = require("./api/payments");
-const sessions = require("./api/sessions");
+const sessionsDropin = require("./api/sessions");
 const submitDetails = require("./api/paymentDetails");
 
 module.exports = (() => {
