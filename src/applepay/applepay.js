@@ -1,9 +1,6 @@
 sessionsDropin().then((session) => {
   console.log(session);
-  function initialize() {
-    initSession();
-  }
-
+  initSession();
   async function initSession() {
     const checkout = await AdyenCheckout({
       clientKey: "test_M35ZRWIW6JHMPOLIAJELF2OYEYIKZQEP",
