@@ -28,7 +28,7 @@ module.exports = (() => {
   app.all("/paymentMethods", (req, res) => getPaymentMethods(res, req.body));
   app.all("/payments", (req, res) => makePayment(res, req.body));
   app.all("/payments/details", (req, res) => submitDetails(res, req.body));
-  app.all("/sessions", (req, res) => sessions(res, req.body));
+  app.all("/sessions", (req, res) => sessionsDropin(res, req.body));
   app.all("/clientKeys", (req, res) => getClientKeys(res, req));
 
   const port = process.env.PORT || 3000;

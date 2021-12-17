@@ -69,3 +69,44 @@ getClientKey().then((clientKey) => {
       .mount("#dropin-container");
   });
 });
+
+// Redirect handling code starts here till the end
+
+function handleRedirectResult(redirectResult) {
+  const checkout = new AdyenCheckout({
+    environment: "test",
+    clientKey: "test_M35ZRWIW6JHMPOLIAJELF2OYEYIKZQEP",
+    locale: "en-GB",
+  });
+  const dropin = checkout
+    .create("dropin", {
+      setStatusAutomatically: false,
+    })
+    .mount("#dropin-container");
+
+  submitDetails({ details: { redirectResult } }).then((response) => {
+    if (response.resultCode === "Authorised") {
+      document.getElementById("result-container").innerHTML =
+        '<img alt="Success" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.svg">';
+    } else if (response.resultCode !== "Authorised") {
+      document.getElementById("result-container").innerHTML =
+        '<img alt="Error" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.svg">';
+    }
+  });
+}
+
+const getSearchParameters = (search = window.location.search) =>
+  search
+    .replace(/\?/g, "")
+    .split("&")
+    .reduce((acc, cur) => {
+      const [key, prop = ""] = cur.split("=");
+      acc[key] = decodeURIComponent(prop);
+      return acc;
+    }, {});
+
+const { redirectResult } = getSearchParameters(window.location.search);
+
+if (redirectResult) {
+  handleRedirectResult(redirectResult);
+}

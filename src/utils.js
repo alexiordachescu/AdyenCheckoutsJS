@@ -1,9 +1,18 @@
+function setReturnUrl() {
+  if (window.location.pathname === "/sessions/") {
+    return window.location.href;
+  } else {
+    return "https://your-company.com/";
+  }
+}
+
 const paymentMethodsConfig = {
   reference: Math.random(),
   countryCode: "BE",
   blockedPaymentMethods: ["applepay"],
   shopperLocale: "en-GB",
   shopperReference: "alex",
+  returnUrl: setReturnUrl(),
   amount: {
     value: 7834,
     currency: "EUR",
@@ -42,7 +51,7 @@ const paymentsDefaultConfig = {
   telephoneNumber: "+33 1 76 35 07 90",
   amount: {
     value: 10000,
-    currency: "EUR",
+    currency: "USD",
   },
   // shopperInteraction: "ContAuth",
   storePaymentMethod: true,
