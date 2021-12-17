@@ -1,5 +1,5 @@
 function setReturnUrl() {
-  if (window.location.pathname === "/sessions/") {
+  if (window.location.pathname === "/sessions/" || "/dropin/") {
     return window.location.href;
   } else {
     return "https://your-company.com/";
@@ -9,10 +9,8 @@ function setReturnUrl() {
 const paymentMethodsConfig = {
   reference: Math.random(),
   countryCode: "BE",
-  blockedPaymentMethods: ["applepay"],
   shopperLocale: "en-GB",
   shopperReference: "alex",
-  returnUrl: setReturnUrl(),
   amount: {
     value: 7834,
     currency: "EUR",
@@ -20,41 +18,15 @@ const paymentMethodsConfig = {
 };
 
 const paymentsDefaultConfig = {
-  merchantAccount: "AlexIordachescu",
-  reference: Math.random(),
-  countryCode: paymentMethodsConfig.countryCode,
+  shopperReference: "Checkout Components sample code test",
+  reference: "Checkout Components sample code test",
+  countryCode: "NL",
   channel: "Web",
-  shopperEmail: "adyen@test.com",
-  dateOfBirth: "1985-07-30",
-  shopperName: {
-    firstName: "Alex",
-    lastName: "Iordachescu",
-  },
-  shopperReference: "購物者參考",
-  shopperLocale: "fr_FR",
-  billingAddress: {
-    city: "Lupine",
-    country: "NL",
-    houseNumberOrName: "N/A",
-    postalCode: "N/A",
-    street: "461 Rue du Centenaire",
-  },
-  returnUrl: "http://localhost:3000/dropin",
-  deliveryAddress: {
-    city: "UGINE",
-    country: "NL",
-    houseNumberOrName: "0",
-    postalCode: "73400",
-    street: "461 Rue du Centenaire",
-  },
-  origin: "http://localhost:3000",
-  telephoneNumber: "+33 1 76 35 07 90",
+  returnUrl: setReturnUrl(),
   amount: {
-    value: 10000,
-    currency: "USD",
+    value: 1000,
+    currency: "EUR",
   },
-  // shopperInteraction: "ContAuth",
-  storePaymentMethod: true,
   lineItems: [
     {
       id: "1",
@@ -67,9 +39,6 @@ const paymentsDefaultConfig = {
       taxCategory: "High",
     },
   ],
-  additionalData: {
-    allow3DS2: true,
-  },
 };
 
 // Generic POST Helper
@@ -175,7 +144,7 @@ const makeSessionsCall = () => {
 // Makes the /session call (for Drop-in)
 
 const sessionsDropin = (paymentMethod, config = {}) => {
-  const paymentsConfig = { ...paymentMethodsConfig, ...config };
+  const paymentsConfig = { ...paymentsDefaultConfig, ...config };
   const sessionRequest = { ...paymentsConfig, ...paymentMethod };
 
   return httpPost("sessions", sessionRequest)
