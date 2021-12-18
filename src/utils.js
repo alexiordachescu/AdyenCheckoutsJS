@@ -83,31 +83,6 @@ const submitDetails = (details) => {
     .catch(console.error);
 };
 
-const showFinalResult = (response) =>
-  createFunctionLaterOn(response.resultCode);
-
-function createFunctionLaterOn(res) {
-  // if (res.action) {
-  //     component.handleAction(res.action);
-  //   } else {
-  switch (res) {
-    // case "Authorised":
-    //       window.location.href = "/cancelled.html";
-    //   break;
-    case "Refused":
-      window.location.href = "/refused.html";
-    case "Pending":
-      break;
-    case "Cancelled":
-      window.location.href = "/cancelled.html";
-      break;
-    case "Received":
-      break;
-    default:
-      break;
-  }
-}
-
 // Fetches an originKey from the local server
 const getOriginKey = () =>
   httpPost("originKeys")
@@ -205,18 +180,18 @@ const paymentsDefaultConfigForSession = {
     currency: "EUR",
   },
   storePaymentMethod: true,
-  // lineItems: [
-  //     {
-  //         id: '1',
-  //         description: 'Test Item 1',
-  //         amountExcludingTax: 10000,
-  //         amountIncludingTax: 11800,
-  //         taxAmount: 1800,
-  //         taxPercentage: 1800,
-  //         quantity: 1,
-  //         taxCategory: 'High'
-  //     }
-  // ],
+  lineItems: [
+    {
+      id: "1",
+      description: "Test Item 1",
+      amountExcludingTax: 10000,
+      amountIncludingTax: 11800,
+      taxAmount: 1800,
+      taxPercentage: 1800,
+      quantity: 1,
+      taxCategory: "High",
+    },
+  ],
   additionalData: {
     allow3DS2: true,
   },
