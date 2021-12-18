@@ -22,6 +22,30 @@ getClientKey().then((clientKey) => {
         onError: (error, component) => {
           console.error(error.name, error.message, error.stack, component);
         },
+        onSubmit: (state, dropin) => {
+          makePayment(state.data)
+            .then((response) => {
+              dropin.setStatus("loading");
+              if (response.action) {
+                dropin.handleAction(response.action);
+              } else if (response.resultCode === "Authorised") {
+                dropin.setStatus("success", { message: "Payment successful!" });
+                setTimeout(function () {
+                  dropin.setStatus("ready");
+                }, 2000);
+              } else if (response.resultCode !== "Authorised") {
+                dropin.setStatus("error", {
+                  message: "Oops, try again please!",
+                });
+                setTimeout(function () {
+                  dropin.setStatus("ready");
+                }, 2000);
+              }
+            })
+            .catch((error) => {
+              throw Error(error);
+            });
+        },
         onChange: (state, component) => {
           updateStateContainer(state); // Demo purposes only
         },
