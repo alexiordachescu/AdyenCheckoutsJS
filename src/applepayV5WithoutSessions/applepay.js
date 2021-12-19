@@ -20,7 +20,10 @@ getClientKey().then((clientKey) => {
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
-            } else if (response.resultCode !== "Authorised") {
+            } else if (
+              response.resultCode !== "Authorised" ||
+              !response.resultCode
+            ) {
               dropin.setStatus("error", { message: "Oops, try again please!" });
               setTimeout(function () {
                 dropin.setStatus("ready");
