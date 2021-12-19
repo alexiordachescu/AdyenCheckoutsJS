@@ -106,7 +106,7 @@ const getClientKey = () =>
 
 // Make the /sessions call (for CHECKOUT SDK)
 const makeSessionsCall = () => {
-  return httpPost("paymentSession")
+  return httpPost("webSdk")
     .then((response) => {
       console.log(response);
       return response;
