@@ -1,32 +1,38 @@
-async function initiateComponent() {
-  // 1. Create an instance of AdyenCheckout
-  const checkout = await AdyenCheckout({});
+sessionsDropin().then((session) => {
+  initSession();
+  async function initSession() {
+    const checkout = await AdyenCheckout({
+      clientKey: "test_M35ZRWIW6JHMPOLIAJELF2OYEYIKZQEP",
+      environment: "test",
+      session,
 
-  // 2. Create and mount the Component
-  const googlepay = checkout
-    .create("paywithgoogle", {
-      showPayButton: true,
-      environment: "TEST", // Google Pay environment
-      configuration: {
-        gatewayMerchantId: "TestMerchantCheckout", // name of your Adyen Merchant account
-        merchantName: "Adyen Test", // Name to be shown
-        // merchantIdentifier: '' // Required in Production environment. Google's merchantId: https://developers.google.com/pay/api/web/guides/test-and-deploy/deploy-production-environment#obtain-your-merchantID
-      },
+      onPaymentCompleted: (result, component) => {
+        console.info(result);
+        const paymentResult = result.resultCode;
 
-      //   Events
-      onSubmit: (state, component) => {
-        // Submit Payment
-        makePayment(state.data);
+        if (paymentResult === "Authorised" || paymentResult === "Received") {
+          document.getElementById("result-container").innerHTML =
+            '<img alt="Success" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/success.svg">';
+        } else {
+          document.getElementById("result-container").innerHTML =
+            '<img alt="Error" src="https://checkoutshopper-test.adyen.com/checkoutshopper/images/components/error.svg">';
+        }
+        updateResponseContainer(result);
+      },
+      onError: (error, component) => {
+        console.error(error.name, error.message, error.stack, component);
+      },
+    });
 
-        updateStateContainer(state); // Demo purposes only
-      },
-      onError: (error) => {
-        console.error(error);
-      },
-    })
-    // Normally, you should check if Google Pay is available before mounting it.
-    // Here we are mounting it directly for demo purposes.
-    // Please refer to the documentation for more information on Google Pay's availability.
-    .mount("#googlepay-container");
-}
-initiateComponent();
+    const googlePayComponent = checkout.create("paywithgoogle");
+
+    googlePayComponent
+      .isAvailable()
+      .then(() => {
+        googlePayComponent.mount("#googlepay-container");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+});
