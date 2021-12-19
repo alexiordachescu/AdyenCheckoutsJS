@@ -76,6 +76,9 @@ getClientKey().then((clientKey) => {
         }
         updateResponseContainer(result);
       },
+      onChange: (state, component) => {
+        updateStateContainer(state); // Demo purposes only
+      },
       onError: (error, component) => {
         console.error(error.name, error.message, error.stack, component);
       },

@@ -5,7 +5,7 @@ getClientKey().then((clientKey) => {
       clientKey: clientKey, // Mandatory. clientKey from Customer Area
       paymentMethodsResponse,
 
-      onChange: (state) => {
+      onChange: (state, component) => {
         updateStateContainer(state); // Demo purposes only
       },
 
@@ -20,7 +20,6 @@ getClientKey().then((clientKey) => {
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
-              updateResponseContainer(state);
             } else if (
               response.resultCode !== "Authorised" ||
               !response.resultCode
@@ -29,7 +28,6 @@ getClientKey().then((clientKey) => {
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
-              updateResponseContainer(state);
             }
           })
           .catch((error) => {

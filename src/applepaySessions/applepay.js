@@ -5,14 +5,16 @@ sessionsDropin().then((session) => {
       clientKey: "test_M35ZRWIW6JHMPOLIAJELF2OYEYIKZQEP",
       environment: "test",
       session,
-
+      onChange: (state, component) => {
+        updateStateContainer(state); // Demo purposes only
+      },
       onPaymentCompleted: (result, component) => {
         console.info(result, component);
         updateResponseContainer(result);
       },
       onError: (error, component) => {
         console.error(error.name, error.message, error.stack, component);
-        updateResponseContainer(error.message);
+        updateResponseContainer(response.message);
       },
     });
     const applePayComponent = checkout.create("applepay");

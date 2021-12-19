@@ -7,7 +7,7 @@ getClientKey().then((clientKey) => {
       paymentMethodsResponse,
       removePaymentMethods: ["paysafecard", "c_cash"],
 
-      onChange: (state) => {
+      onChange: (state, component) => {
         updateStateContainer(state); // Demo purposes only
       },
 

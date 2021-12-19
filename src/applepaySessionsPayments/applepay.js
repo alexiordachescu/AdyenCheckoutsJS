@@ -6,6 +6,10 @@ sessionsDropin().then((session) => {
       environment: "test",
       session,
 
+      onChange: (state, component) => {
+        updateStateContainer(state); // Demo purposes only
+      },
+
       onSubmit: (state, dropin) => {
         makePayment(state.data)
           .then((response) => {
