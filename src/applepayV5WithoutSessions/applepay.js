@@ -58,19 +58,20 @@ getClientKey().then((clientKey) => {
     const checkout = await AdyenCheckout(configuration);
 
     // 2. Create and mount the Component
-    const applePay = checkout
-      .create("applepay", {
-        amount: {
-          value: 100,
-          currency: "EUR",
-        },
-        countryCode: "NL",
-        // Events
-        onSelect: (activeComponent) => {
-          if (activeComponent.state && activeComponent.state.data)
-            updateStateContainer(activeComponent.data); // Demo purposes only
-        },
-      })
+    const applePayComponent = checkout.create("applepay", {
+      amount: {
+        value: 100,
+        currency: "EUR",
+      },
+      countryCode: "NL",
+      // Events
+      onSelect: (activeComponent) => {
+        if (activeComponent.state && activeComponent.state.data)
+          updateStateContainer(activeComponent.data); // Demo purposes only
+      },
+    });
+
+    applePayComponent
       .isAvailable()
       .then(() => {
         applePayComponent.mount("#applepay-container");
