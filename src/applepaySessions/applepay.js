@@ -8,9 +8,11 @@ sessionsDropin().then((session) => {
 
       onPaymentCompleted: (result, component) => {
         console.info(result, component);
+        updateResponseContainer(result);
       },
       onError: (error, component) => {
         console.error(error.name, error.message, error.stack, component);
+        updateResponseContainer(error.message);
       },
     });
     const applePayComponent = checkout.create("applepay");

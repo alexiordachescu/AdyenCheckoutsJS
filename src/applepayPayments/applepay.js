@@ -21,11 +21,13 @@ getClientKey().then((clientKey) => {
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
+              updateResponseContainer(state);
             } else if (response.resultCode !== "Authorised") {
               dropin.setStatus("error", { message: "Oops, try again please!" });
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
+              updateResponseContainer(state);
             }
           })
           .catch((error) => {

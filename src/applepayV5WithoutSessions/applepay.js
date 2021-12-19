@@ -20,6 +20,7 @@ getClientKey().then((clientKey) => {
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
+              updateResponseContainer(state);
             } else if (
               response.resultCode !== "Authorised" ||
               !response.resultCode
@@ -28,6 +29,7 @@ getClientKey().then((clientKey) => {
               setTimeout(function () {
                 dropin.setStatus("ready");
               }, 2000);
+              updateResponseContainer(state);
             }
           })
           .catch((error) => {
