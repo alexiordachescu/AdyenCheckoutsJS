@@ -1,27 +1,77 @@
-sessionsDropin().then((session) => {
-  initSession();
-  async function initSession() {
-    const checkout = await AdyenCheckout({
-      clientKey: "test_M35ZRWIW6JHMPOLIAJELF2OYEYIKZQEP",
+// 0. Get clientKey
+getClientKey().then((clientKey) => {
+  getPaymentMethods().then(async (paymentMethodsResponse) => {
+    const configuration = {
       environment: "test",
-      session,
+      clientKey: clientKey, // Mandatory. clientKey from Customer Area
+      paymentMethodsResponse,
 
-      onPaymentCompleted: (result, component) => {
-        console.info(result, component);
+      onChange: (state) => {
+        updateStateContainer(state); // Demo purposes only
       },
-      onError: (error, component) => {
-        console.error(error.name, error.message, error.stack, component);
-      },
-    });
-    const applePayComponent = checkout.create("applepay");
 
-    applePayComponent
-      .isAvailable()
-      .then(() => {
-        applePayComponent.mount("#applepay-container");
+      onSubmit: (state, dropin) => {
+        makePayment(state.data)
+          .then((response) => {
+            dropin.setStatus("loading");
+            if (response.action) {
+              dropin.handleAction(response.action);
+            } else if (response.resultCode === "Authorised") {
+              dropin.setStatus("success", { message: "Payment successful!" });
+              setTimeout(function () {
+                dropin.setStatus("ready");
+              }, 2000);
+            } else if (response.resultCode !== "Authorised") {
+              dropin.setStatus("error", { message: "Oops, try again please!" });
+              setTimeout(function () {
+                dropin.setStatus("ready");
+              }, 2000);
+            }
+          })
+          .catch((error) => {
+            throw Error(error);
+          });
+      },
+
+      onAdditionalDetails: (state, dropin) => {
+        submitDetails(state.data)
+          .then((response) => {
+            if (response.action) {
+              dropin.handleAction(response.action);
+            } else if (response.resultCode === "Authorised") {
+              dropin.setStatus("success", { message: "Payment successful!" });
+              setTimeout(function () {
+                dropin.setStatus("ready");
+              }, 2000);
+            } else if (response.resultCode !== "Authorised") {
+              setTimeout(function () {
+                dropin.setStatus("ready");
+              }, 2000);
+            }
+          })
+          .catch((error) => {
+            throw Error(error);
+          });
+      },
+    };
+
+    // 1. Create an instance of AdyenCheckout
+    const checkout = new AdyenCheckout(configuration);
+
+    // 2. Create and mount the Component
+    const applePay = checkout
+      .create("applepay", {
+        amount: {
+          value: 100,
+          currency: "EUR",
+        },
+        countryCode: "NL",
+        // Events
+        onSelect: (activeComponent) => {
+          if (activeComponent.state && activeComponent.state.data)
+            updateStateContainer(activeComponent.data); // Demo purposes only
+        },
       })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+      .mount("#applepay-container");
+  });
 });
