@@ -1,4 +1,3 @@
-// 0. Get clientKey
 getClientKey().then((clientKey) => {
   getPaymentMethods().then(async (paymentMethodsResponse) => {
     const configuration = {
@@ -56,7 +55,7 @@ getClientKey().then((clientKey) => {
     };
 
     // 1. Create an instance of AdyenCheckout
-    const checkout = new AdyenCheckout(configuration);
+    const checkout = await AdyenCheckout(configuration);
 
     // 2. Create and mount the Component
     const applePay = checkout

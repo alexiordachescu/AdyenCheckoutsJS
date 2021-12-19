@@ -1,5 +1,4 @@
 sessionsDropin().then((session) => {
-  console.log(session);
   initSession();
   async function initSession() {
     const checkout = await AdyenCheckout({
