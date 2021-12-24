@@ -21,13 +21,28 @@
         <div class="checkout-container">
           <a href="../">Back</a>
 
-          <h1>Apple Pay (v5.0.0+ without /sessions)</h1>
+          <h1>
+            Apple Pay (v5.0.0+ without /sessions) - v5.3.1 (Inspect -> Elements
+            -> check the "script" loadings)
+          </h1>
           <h2>
             This is like the old flow where you must use Adyen's 3 endpoints
           </h2>
           <h2>
             Please "Inspect" element, go to "Sources" in the browser console and
             check the applepay.js file for references!
+          </h2>
+          <h2>
+            To see the applePay/sessions request, do the following on Safari's
+            MacBook: Inspect Element, open the Network tab and keep it open,
+            click the "Pay" button, click the newly created "sessions" call in
+            the Network tab, navigate to "Request Data", click on "Request Data"
+            and make sure the values are correct!
+          </h2>
+          <h2>
+            In order to see how the backend calls looks like, check the utils.js
+            (especially the functions which were exported to to the applepay.js
+            file - getClientKey, getPaymentMethods, makePayment, submitDetails)!
           </h2>
           <div class="payment-method">
             <div id="applepay-container">
