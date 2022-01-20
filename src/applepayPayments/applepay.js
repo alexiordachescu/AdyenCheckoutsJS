@@ -5,6 +5,7 @@ getClientKey().then((clientKey) => {
       environment: "test",
       clientKey: clientKey, // Mandatory. clientKey from Customer Area
       paymentMethodsResponse,
+      buttonType: "buy",
 
       onChange: (state) => {
         updateStateContainer(state); // Demo purposes only

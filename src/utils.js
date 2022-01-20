@@ -13,7 +13,7 @@ const paymentMethodsConfig = {
   shopperReference: "alex",
   amount: {
     value: 7834,
-    currency: "EUR",
+    currency: "USD",
   },
 };
 
@@ -25,7 +25,7 @@ const paymentsDefaultConfig = {
   returnUrl: setReturnUrl(),
   amount: {
     value: 1000,
-    currency: "EUR",
+    currency: "USD",
   },
   lineItems: [
     {
